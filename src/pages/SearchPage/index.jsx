@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Mettzer from "../../assets/logoMettzer.png";
+
 import {
-  Header,
   SearchPageContainer,
   Text,
   Form,
@@ -11,6 +10,8 @@ import {
 } from "./styles.js";
 
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+import FavoriteBar from "../FavoriteBar";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import api from "../../services/api";
 
@@ -22,7 +23,7 @@ const SearchPage = () => {
     e.preventDefault();
     try {
       const response = await api.get(
-        `/articles/search/data?page=1&pageSize=20&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
+        `/articles/search/data?page=1&pageSize=10&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
       );
 
       setArticles(response.data.data);
@@ -58,17 +59,13 @@ const SearchPage = () => {
 
   return (
     <SearchPageContainer>
-      <Header>
-        <img src={Mettzer} alt="Logo da Mettzer" />
-      </Header>
-      <Text>Busque por artigos aqui!</Text>
+      <FavoriteBar />
+      <Text>Lista de artigos</Text>
       <FormContainer>
         <Form>
-          <input placeholder="Digite o que deseja buscar" />
-          <button onClick={searchArticle}>Pesquisar</button>
+          <button onClick={searchArticle}>Exibir artigos</button>
         </Form>
 
-        <h1>Lista de artigos</h1>
         {articles.map((article) => {
           return (
             <ContainerList key={article.id}>
