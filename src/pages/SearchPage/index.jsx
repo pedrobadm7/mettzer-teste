@@ -12,13 +12,14 @@ import {
 
 import Mettzer from "../../assets/logoMettzer.png";
 import { IoIosHeart, IoIosHeartEmpty, IoIosRemoveCircle } from "react-icons/io";
-import ReactPaginate from 'react-paginate';
+import ReactPaginate from "react-paginate";
 
 import api from "../../services/api";
 
 const SearchPage = () => {
   const [articles, setArticles] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fav = localStorage.getItem("@MettzerTest: favorite");
@@ -26,13 +27,13 @@ const SearchPage = () => {
     if (favs) {
       setFavorites(favs);
     }
-  }, [favorites]);
+  }, []);
 
   const handleSearch = async (event) => {
     event.preventDefault();
     try {
       const response = await api.get(
-        `/articles/search/data?page=1&pageSize=20&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
+        `/articles/search/${query}?page=1&pageSize=20&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
       );
 
       setArticles(response.data.data);
@@ -75,14 +76,25 @@ const SearchPage = () => {
       <Text>Lista de artigos</Text>
       <FormContainer>
         <Form>
-          <button onClick={handleSearch}>Exibir artigos</button>
+          <input
+            type="text"
+            placeholder="Pesquise seu artigo aqui..."
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+          />
+          {query.length > 0 ? (
+            <button onClick={handleSearch}>Exibir artigos</button>
+          ) : (
+            <button disabled>Exibir artigos</button>
+          )}
         </Form>
 
-        <ContainerList>
-          <h1>Artigos</h1>
-          {articles.map((article) => {
-            return (
-              <ListArticles key={article.id}>
+        <h1>Artigos</h1>
+        {articles.map((article) => {
+          return (
+            <ContainerList key={article.id}>
+              <ListArticles>
                 <section>
                   <strong>{article.title}</strong>
                   <p>{article.description}</p>
@@ -110,11 +122,12 @@ const SearchPage = () => {
                   )}
                 </button>
               </ListArticles>
-            );
-          })}
-        </ContainerList>
+            </ContainerList>
+          );
+        })}
+
         <ContainerList>
-          <h1>Artigos</h1>
+          <h1>Favoritos</h1>
           {favorites.map((favs) => {
             return (
               <ListArticles key={favs.id}>

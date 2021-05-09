@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export const SearchPageContainer = styled.div`
   background: #1b1e23;
   width: 100%;
+  min-height: 100vh;
 `;
 
 export const Header = styled.div`
@@ -59,14 +60,16 @@ export const Form = styled.form`
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* input {
+
+  input {
     flex: 1;
     height: 50px;
     padding: 0 24px;
     border: 0px;
     border-radius: 5px;
     margin-right: 10px;
-  } */
+  }
+
   button {
     width: 100%;
     max-width: 120px;
