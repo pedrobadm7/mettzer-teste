@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import qs from "qs";
 
 import {
   SearchPageContainer,
@@ -12,14 +13,17 @@ import {
 
 import Mettzer from "../../assets/logoMettzer.png";
 import { IoIosHeart, IoIosHeartEmpty, IoIosRemoveCircle } from "react-icons/io";
-import ReactPaginate from "react-paginate";
+import Pagination from "../Pagination";
 
 import api from "../../services/api";
+
+const LIMIT = 11;
 
 const SearchPage = () => {
   const [articles, setArticles] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [query, setQuery] = useState("");
+  const [offset, setOffset] = useState(1);
 
   useEffect(() => {
     const fav = localStorage.getItem("@MettzerTest: favorite");
@@ -29,11 +33,30 @@ const SearchPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (articles.length > 0) {
+      handleSearch();
+    }
+  }, [offset]);
+
   const handleSearch = async (event) => {
-    event.preventDefault();
+    const querySearch = {
+      page: {
+        limit: LIMIT,
+        offset,
+      },
+    };
+
+    if (query) {
+      querySearch.filter = {
+        query,
+      };
+    }
+
+    event && event.preventDefault();
     try {
       const response = await api.get(
-        `/articles/search/${query}?page=1&pageSize=10&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
+        `/articles/search/${query}?page=${offset}&pageSize=${LIMIT}&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
       );
 
       setArticles(response.data.data);
@@ -68,6 +91,7 @@ const SearchPage = () => {
     }
   };
 
+  // debugger;
   return (
     <SearchPageContainer>
       <Header>
@@ -127,7 +151,12 @@ const SearchPage = () => {
             </ContainerList>
           );
         })}
-
+        <Pagination
+          limit={LIMIT}
+          total={articles.totalHits}
+          offset={offset}
+          setOffset={setOffset}
+        />
         <ContainerList>
           <h1>Favoritos</h1>
           {favorites.map((favs) => {
