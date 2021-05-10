@@ -33,7 +33,7 @@ const SearchPage = () => {
     event.preventDefault();
     try {
       const response = await api.get(
-        `/articles/search/${query}?page=1&pageSize=20&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
+        `/articles/search/${query}?page=1&pageSize=10&metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=false&faithfulMetadata=false&apiKey=nMfsxcpWADFUvJ2dY53QrbZKOiEBH1XS`
       );
 
       setArticles(response.data.data);
@@ -98,7 +98,9 @@ const SearchPage = () => {
                 <section>
                   <strong>{article.title}</strong>
                   <p>{article.description}</p>
-                  <h2>Authors:</h2> <p>{article.authors}</p>
+                  <h2>Autores:</h2> <p>{article.authors}</p>
+                  <h2>Contribuidores:</h2>
+                  <p>{article.contributors}</p>
                 </section>
                 <button>
                   {favorites.find(

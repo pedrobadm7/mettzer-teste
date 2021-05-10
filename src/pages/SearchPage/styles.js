@@ -97,6 +97,7 @@ export const ContainerList = styled.div`
   padding-bottom: 20px;
   border-radius: 5px;
   background-color: #f0f0f5;
+
   h1 {
     text-align: center;
     padding-top: 40px;
