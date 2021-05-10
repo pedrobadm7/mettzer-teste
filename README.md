@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Como iniciar o projeto?
+
+Dê um  `git clone https://github.com/pedrobadm7/mettzer-teste.git ` no terminal, após terminar dê um `npm install`ou `yarn` e em seguida `npm run start` ou `yarn start`
+
 ## Available Scripts
 
 In the project directory, you can run:
