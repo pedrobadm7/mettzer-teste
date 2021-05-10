@@ -1,0 +1,25 @@
+.pagination {
+  display: block;
+  padding: 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #4ebbcb;
+}
+
+.pagination:hover {
+  opacity: 0.8;
+}
+
+.pagination__item--active {
+  display: block;
+  padding: 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #4ebbcb;
+  background-color: #fff;
+}

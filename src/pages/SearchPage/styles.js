@@ -95,6 +95,7 @@ export const ContainerList = styled.div`
   margin-left: 20px;
   margin-top: 40px;
   padding-bottom: 20px;
+  margin-bottom: 20px;
   border-radius: 5px;
   background-color: #f0f0f5;
 
@@ -154,4 +155,3 @@ export const ListArticles = styled.div`
     border-radius: 10px;
   }
 `;
-

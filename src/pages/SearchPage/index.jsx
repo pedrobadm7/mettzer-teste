@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import qs from "qs";
 
 import {
   SearchPageContainer,
@@ -24,6 +23,7 @@ const SearchPage = () => {
   const [favorites, setFavorites] = useState([]);
   const [query, setQuery] = useState("");
   const [offset, setOffset] = useState(1);
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     const fav = localStorage.getItem("@MettzerTest: favorite");
@@ -60,6 +60,7 @@ const SearchPage = () => {
       );
 
       setArticles(response.data.data);
+      setHasSearched(true);
 
       console.log(articles, "articles");
     } catch (error) {}
@@ -114,49 +115,55 @@ const SearchPage = () => {
           )}
         </Form>
 
-        <h1>Artigos</h1>
-        {articles.map((article) => {
-          return (
-            <ContainerList key={article.id}>
-              <ListArticles>
-                <section>
-                  <strong>{article.title}</strong>
-                  <p>{article.description}</p>
-                  <h2>Autores:</h2> <p>{article.authors}</p>
-                  <h2>Contribuidores:</h2>
-                  <p>{article.contributors}</p>
-                </section>
-                <button>
-                  {favorites.find(
-                    (favourite) => favourite.id === article.id
-                  ) ? (
-                    <IoIosHeart
-                      fontSize={26}
-                      color="red"
-                      onClick={() => {
-                        handleFavorites(article);
-                      }}
-                    />
-                  ) : (
-                    <IoIosHeartEmpty
-                      fontSize={26}
-                      color="red"
-                      onClick={() => {
-                        handleFavorites(article);
-                      }}
-                    />
-                  )}
-                </button>
-              </ListArticles>
-            </ContainerList>
-          );
-        })}
-        <Pagination
-          limit={LIMIT}
-          total={articles.totalHits}
-          offset={offset}
-          setOffset={setOffset}
-        />
+        {hasSearched && (
+          <>
+            <h1>Artigos</h1>
+
+            {articles.map((article) => {
+              return (
+                <ContainerList key={article.id}>
+                  <ListArticles>
+                    <section>
+                      <strong>{article.title}</strong>
+                      <p>{article.description}</p>
+                      <h2>Autores:</h2> <p>{article.authors}</p>
+                      <h2>Contribuidores:</h2>
+                      <p>{article.contributors}</p>
+                    </section>
+                    <button>
+                      {favorites.find(
+                        (favourite) => favourite.id === article.id
+                      ) ? (
+                        <IoIosHeart
+                          fontSize={26}
+                          color="red"
+                          onClick={() => {
+                            handleFavorites(article);
+                          }}
+                        />
+                      ) : (
+                        <IoIosHeartEmpty
+                          fontSize={26}
+                          color="red"
+                          onClick={() => {
+                            handleFavorites(article);
+                          }}
+                        />
+                      )}
+                    </button>
+                  </ListArticles>
+                </ContainerList>
+              );
+            })}
+            <Pagination
+              limit={LIMIT}
+              total={articles.totalHits}
+              offset={offset}
+              setOffset={setOffset}
+            />
+          </>
+        )}
+
         <ContainerList>
           <h1>Favoritos</h1>
           {favorites.map((favs) => {
